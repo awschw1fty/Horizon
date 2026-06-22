@@ -28,12 +28,6 @@
         "type": "user_events",
         "username": "torvalds",
         "enabled": true
-      },
-      {
-        "type": "repo_releases",
-        "owner": "astral-sh",
-        "repo": "uv",
-        "enabled": true
       }
     ],
     "hackernews": {
@@ -67,14 +61,7 @@
           "min_score": 50
         }
       ],
-      "users": [
-        {
-          "username": "iamthatis",
-          "enabled": true,
-          "sort": "new",
-          "fetch_limit": 10
-        }
-      ],
+      "users": [],
       "fetch_comments": 5
     },
     "twitter": {
@@ -108,6 +95,10 @@
       "keywords": [],
       "min_stars": 10,
       "max_items": 30
+    },
+    "telegram": {
+      "enabled": false,
+      "channels": []
     }
   },
   "filtering": {
