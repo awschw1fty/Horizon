@@ -2,8 +2,8 @@ name: Daily Horizon Summary
 
 on:
   schedule:
-    - cron: '20 22 * * *'  # UTC 22:20 = 北京 06:20, 避开整点高峰
-  workflow_dispatch:      # Allow manual trigger
+    - cron: '20 22 * * *'  # UTC 22:20 = 北京 06:20, 每天触发作为锚点
+  workflow_dispatch:      # 手动触发: 不受 3 天门控限制 (用于调试/补跑)
 
 jobs:
   daily-summary:
@@ -12,32 +12,57 @@ jobs:
       contents: write  # Needed to commit changes
 
     steps:
+      - name: 3 天门控 (schedule 每 3 天运行一次)
+        id: gate
+        run: |
+          if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
+            echo "run=true" >> $GITHUB_OUTPUT
+            echo "🟢 手动触发 → 运行"
+            exit 0
+          fi
+          DAY=$(( $(date -u +%s) / 86400 ))
+          if [ $(( DAY % 3 )) -eq 0 ]; then
+            echo "run=true" >> $GITHUB_OUTPUT
+            echo "🟢 epoch_day=$DAY → 运行 (每 3 天一次)"
+          else
+            echo "run=false" >> $GITHUB_OUTPUT
+            echo "⚪️ epoch_day=$DAY → 跳过 (非运行日)"
+          fi
+
       - name: Checkout code
+        if: steps.gate.outputs.run == 'true'
         uses: actions/checkout@v6
 
       - name: Set up Python
+        if: steps.gate.outputs.run == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Install uv
+        if: steps.gate.outputs.run == 'true'
         uses: astral-sh/setup-uv@v3
 
       - name: Install dependencies
+        if: steps.gate.outputs.run == 'true'
         run: uv sync
 
       - name: Prepare GitHub Actions config
+        if: steps.gate.outputs.run == 'true'
         run: cp data/config.github.json data/config.json
 
       - name: Run Horizon
+        if: steps.gate.outputs.run == 'true'
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
-        run: uv run horizon --hours 24
+        run: uv run horizon --hours 72
 
       - name: Set current date as environment variable
+        if: steps.gate.outputs.run == 'true'
         run: echo "DATE=$(TZ=Asia/Shanghai date +'%Y-%m-%d')" >> $GITHUB_ENV
 
       - name: Deploy to GitHub Pages
+        if: steps.gate.outputs.run == 'true'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
