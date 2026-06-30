@@ -23,16 +23,7 @@
     "unsubscribe_keyword": "UNSUBSCRIBE"
   },
   "sources": {
-    "github": [
-      {
-        "type": "user_events",
-        "username": "torvalds",
-        "enabled": true
-      },
-      { "type": "repo_releases", "owner": "alpertarhan", "repo": "pi-smart-compact", "enabled": true },
-      { "type": "repo_releases", "owner": "gotgenes", "repo": "pi-packages", "enabled": true },
-      { "type": "repo_releases", "owner": "anthropics", "repo": "claude-agent-sdk-python", "enabled": true }
-    ],
+    "github": [],
     "hackernews": {
       "enabled": true,
       "fetch_top_stories": 20,
@@ -58,14 +49,11 @@
         "category": "pi"
       },
       { "name": "OpenAI News", "url": "https://openai.com/news/rss.xml", "enabled": true, "category": "ai-official" },
-      { "name": "Google AI", "url": "https://blog.google/technology/ai/rss/", "enabled": true, "category": "ai-official" },
       { "name": "Hugging Face Blog", "url": "https://huggingface.co/blog/feed.xml", "enabled": true, "category": "ai-tech" },
       { "name": "MIT Tech Review AI", "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed/", "enabled": true, "category": "ai-analysis" },
       { "name": "IEEE Spectrum Robotics", "url": "https://spectrum.ieee.org/feeds/topic/robotics.rss", "enabled": true, "category": "robotics" },
       { "name": "Robohub", "url": "https://robohub.org/feed/", "enabled": true, "category": "robotics" },
-      { "name": "VentureBeat AI", "url": "https://venturebeat.com/category/ai/feed/", "enabled": true, "category": "ai-news" },
       { "name": "TechCrunch AI", "url": "https://techcrunch.com/category/artificial-intelligence/feed/", "enabled": true, "category": "ai-news" },
-      { "name": "AI News", "url": "https://www.artificialintelligence-news.com/feed/", "enabled": true, "category": "ai-news" },
       { "name": "MarkTechPost", "url": "https://www.marktechpost.com/feed/", "enabled": true, "category": "ai-news" },
       { "name": "Andrej Karpathy", "url": "https://karpathy.bearblog.dev/feed/", "enabled": true, "category": "ai-tech" }
     ],
